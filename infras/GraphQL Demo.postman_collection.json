@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "66274845-471a-4a11-9d18-dea2ab6e3d39",
+		"name": "GraphQL Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20339798"
+	},
+	"item": [
+		{
+			"name": "Get All Authors",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n    findAllAuthors {\r\n        id\r\n        firstName\r\n        lastName\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Authors by Name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n    findAuthorByName(\r\n        name: \"auth\"\r\n    ) {\r\n        id\r\n        firstName\r\n        lastName\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Author",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($firstName: String!, $lastName: String!)\r\n{\r\n  createAuthor (\r\n      firstName: $firstName\r\n      lastName: $lastName\r\n  )\r\n    {\r\n      id \r\n      firstName \r\n      lastName\r\n      modifiedAt\r\n      createdAt\r\n    }\r\n}",
+						"variables": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \" {{$randomLastName}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n    findAllBook {\r\n        id\r\n        title\r\n        description\r\n        status\r\n        author {\r\n            id\r\n            firstName\r\n            lastName\r\n            modifiedAt\r\n            createdAt\r\n        }\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book by Title",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n    findBookByTitle(\r\n        title: \"ne\"\r\n    ) {\r\n        id\r\n        title\r\n        description\r\n        status\r\n        author {\r\n            id\r\n            firstName\r\n            lastName\r\n            modifiedAt\r\n            createdAt\r\n        }\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($title: String!, $description: String!)\r\n{\r\n  createBook (\r\n      title: $title\r\n      description: $description\r\n      authorId: 1\r\n  ) {\r\n        id\r\n        title\r\n        description\r\n        status\r\n        author {\r\n            id\r\n            firstName\r\n            lastName\r\n            modifiedAt\r\n            createdAt\r\n        }\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": "{\r\n    \"title\": \"{{$randomProductName}}\",\r\n    \"description\": \"desc {{$randomCatchPhraseDescriptor}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($title: String!, $description: String!)\r\n{\r\n  updateBook (\r\n      id: 2\r\n      title: $title\r\n      description: $description\r\n      authorId: 1\r\n  ) {\r\n        id\r\n        title\r\n        description\r\n        status\r\n        author {\r\n            id\r\n            firstName\r\n            lastName\r\n            modifiedAt\r\n            createdAt\r\n        }\r\n        modifiedAt\r\n        createdAt\r\n    }\r\n}",
+						"variables": "{\r\n    \"title\": \"title{{$randomProductName}}\",\r\n        \"description\": \"desc {{$randomCatchPhraseDescriptor}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation \r\n{\r\n  deleteBook (\r\n      id: 13\r\n  )\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
