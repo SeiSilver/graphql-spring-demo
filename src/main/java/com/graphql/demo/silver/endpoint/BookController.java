@@ -1,6 +1,8 @@
 package com.graphql.demo.silver.endpoint;
 
 import com.graphql.demo.silver.infrastructure.entity.BookEntity;
+import com.graphql.demo.silver.usecase.exception.DataExistedException;
+import com.graphql.demo.silver.usecase.exception.DataNotFoundException;
 import com.graphql.demo.silver.usecase.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -31,7 +33,7 @@ public class BookController {
       @Argument String title,
       @Argument String description,
       @Argument Integer authorId
-  ) {
+  ) throws DataNotFoundException, DataExistedException {
     return bookService.createBook(title, description, authorId);
   }
 
@@ -41,14 +43,14 @@ public class BookController {
       @Argument String title,
       @Argument String description,
       @Argument Integer authorId
-  ) {
+  ) throws DataNotFoundException {
     return bookService.updateBook(id, title, description, authorId);
   }
 
   @MutationMapping
   public boolean deleteBook(
       @Argument Integer id
-  ) {
+  ) throws DataNotFoundException {
     return bookService.deleteBook(id);
   }
 }

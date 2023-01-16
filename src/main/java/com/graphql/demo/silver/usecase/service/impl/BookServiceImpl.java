@@ -5,6 +5,8 @@ import com.graphql.demo.silver.infrastructure.entity.BookEntity;
 import com.graphql.demo.silver.infrastructure.enums.BookStatus;
 import com.graphql.demo.silver.infrastructure.repository.AuthorRepository;
 import com.graphql.demo.silver.infrastructure.repository.BookRepository;
+import com.graphql.demo.silver.usecase.exception.DataExistedException;
+import com.graphql.demo.silver.usecase.exception.DataNotFoundException;
 import com.graphql.demo.silver.usecase.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,26 +34,30 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public BookEntity createBook(String title, String desc, Integer authorId) {
+  public BookEntity createBook(String title, String desc, Integer authorId) throws DataNotFoundException, DataExistedException {
+    List<BookEntity> bookOpt = bookRepository.findByTitle(title);
+    if (!bookOpt.isEmpty()) {
+      throw new DataExistedException("Book is existed");
+    }
     Optional<AuthorEntity> authorOpt = authorRepository.findById(authorId);
     return bookRepository.save(BookEntity.builder()
         .title(title)
         .description(desc)
         .status(BookStatus.NEW)
-        .author(authorOpt.orElseThrow(() -> new RuntimeException("Author is not existed!")))
+        .author(authorOpt.orElseThrow(() -> new DataNotFoundException("Author is not existed!")))
         .build());
   }
 
   @Override
   @Transactional
-  public BookEntity updateBook(Integer id, String title, String desc, Integer authorId) {
+  public BookEntity updateBook(Integer id, String title, String desc, Integer authorId) throws DataNotFoundException {
     Optional<BookEntity> bookOpt = bookRepository.findById(id);
     if (bookOpt.isEmpty()) {
-      throw new RuntimeException("Book not existed");
+      throw new DataNotFoundException("Book not existed");
     }
     Optional<AuthorEntity> authorOpt = authorRepository.findById(authorId);
     if (authorOpt.isEmpty()) {
-      throw new RuntimeException("Author is not existed!");
+      throw new DataNotFoundException("Author is not existed!");
     }
     var newBook = bookOpt.get();
     newBook.setAuthor(authorOpt.get());
@@ -62,10 +68,10 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional
-  public boolean deleteBook(Integer id) {
+  public boolean deleteBook(Integer id) throws DataNotFoundException {
     Optional<BookEntity> bookOpt = bookRepository.findById(id);
     if (bookOpt.isEmpty()) {
-      return false;
+      throw new DataNotFoundException("Author is not existed!");
     }
     bookRepository.delete(bookOpt.get());
     return true;

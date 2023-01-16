@@ -2,6 +2,7 @@ package com.graphql.demo.silver.usecase.service.impl;
 
 import com.graphql.demo.silver.infrastructure.entity.AuthorEntity;
 import com.graphql.demo.silver.infrastructure.repository.AuthorRepository;
+import com.graphql.demo.silver.usecase.exception.DataExistedException;
 import com.graphql.demo.silver.usecase.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,9 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   @Transactional
-  public AuthorEntity createAuthor(String firstName, String lastName) {
+  public AuthorEntity createAuthor(String firstName, String lastName) throws DataExistedException {
     if (authorRepository.existsByFirstNameAndLastName(firstName, lastName)) {
-      throw new RuntimeException("Author existed!");
+      throw new DataExistedException("Author existed!");
     }
     return authorRepository.save(AuthorEntity.builder()
         .firstName(firstName)

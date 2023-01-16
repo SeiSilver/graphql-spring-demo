@@ -1,6 +1,7 @@
 package com.graphql.demo.silver.endpoint;
 
 import com.graphql.demo.silver.infrastructure.entity.AuthorEntity;
+import com.graphql.demo.silver.usecase.exception.DataExistedException;
 import com.graphql.demo.silver.usecase.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -27,7 +28,7 @@ public class AuthorController {
   }
 
   @MutationMapping
-  public AuthorEntity createAuthor(@Argument String firstName, @Argument String lastName) {
+  public AuthorEntity createAuthor(@Argument String firstName, @Argument String lastName) throws DataExistedException {
     return authorService.createAuthor(firstName, lastName);
   }
 
