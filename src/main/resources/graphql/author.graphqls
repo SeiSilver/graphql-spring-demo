@@ -6,7 +6,7 @@ type Query {
 
 # Root
 type Mutation {
-    createAuthor(firstName: String!, lastName: String!): Author!
+    createAuthor(firstName: String!, lastName: String!): Author
 }
 
 # Type and Field
